@@ -15,13 +15,17 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/eloquent-sortable.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/eloquent-sortable)
+Learn how to create a package like this one, by watching our premium video course:
+
+[![Laravel Package training](https://spatie.be/github/package-training.jpg)](https://laravelpackage.training)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
 We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
+
+> For Laravel 6.x or PHP 7.x, use version 3.x of this package.
 
 This package can be installed through Composer.
 
@@ -41,7 +45,7 @@ In Laravel 5.5 and above the service provider will automatically get registered.
 Optionally you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\EloquentSortable\EloquentSortableServiceProvider" --tag="config"
+php artisan vendor:publish --tag=eloquent-sortable-config
 ```
 
 This is the content of the file that will be published in `config/eloquent-sortable.php`
@@ -74,9 +78,8 @@ To add sortable behaviour to your model you must:
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class MyModel extends Eloquent implements Sortable
+class MyModel extends Model implements Sortable
 {
-
     use SortableTrait;
 
     public $sortable = [
@@ -84,7 +87,7 @@ class MyModel extends Eloquent implements Sortable
         'sort_when_creating' => true,
     ];
 
-    ...
+    // ...
 }
 ```
 
@@ -193,10 +196,12 @@ MyModel::swapOrder($myModel, $anotherModel);
 If your model/table has a grouping field (usually a foreign key): `id, `**`user_id`**`, title, order_column`
 and you'd like the above methods to take it into considerations, you can create a `buildSortQuery` method at your model:
 ```php
-  public function buildSortQuery()
-    {
-        return static::query()->where('user_id', $this->user_id);
-    }
+// MyModel.php
+
+public function buildSortQuery()
+{
+    return static::query()->where('user_id', $this->user_id);
+}
 ```
 This will restrict the calculations to fields value of the model instance.
 
@@ -216,13 +221,13 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
-## Security
+## Security Vulnerabilities
 
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
-- [Freek Van der Herten](https://murze.be)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
 ## Alternatives
