@@ -40,7 +40,7 @@ trait SortableTrait
         return $query->orderBy($this->determineOrderColumnName(), $direction);
     }
 
-    public static function setNewOrder($ids, int $startOrder = 1, string $primaryKeyColumn = null): void
+    public static function setNewOrder($ids, int $startOrder = 1, string $primaryKeyColumn = null, string $column = '')
     {
         if (! is_array($ids) && ! $ids instanceof ArrayAccess) {
             throw new InvalidArgumentException('You must pass an array or ArrayAccess object to setNewOrder');
@@ -48,7 +48,7 @@ trait SortableTrait
 
         $model = new static();
 
-        $orderColumnName = $model->determineOrderColumnName();
+        $orderColumnName = $model->determineOrderColumnName($column);
 
         if (is_null($primaryKeyColumn)) {
             $primaryKeyColumn = $model->getKeyName();
@@ -66,9 +66,13 @@ trait SortableTrait
         self::setNewOrder($ids, $startOrder, $primaryKeyColumn);
     }
 
-    public function determineOrderColumnName(): string
+    public function determineOrderColumnName($column = null): string
     {
-        return $this->sortable['order_column_name'] ?? config('eloquent-sortable.order_column_name', 'order_column');
+        if($column){
+            return $column;
+        }
+
+        return isset($this->sortable['order_column_name']) ? $this->sortable['order_column_name'] : config('eloquent-sortable.order_column_name', 'order_column');
     }
 
     /**
