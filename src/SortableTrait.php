@@ -68,7 +68,7 @@ trait SortableTrait
 
     public function determineOrderColumnName($column = null): string
     {
-        if($column){
+        if ($column) {
             return $column;
         }
 
